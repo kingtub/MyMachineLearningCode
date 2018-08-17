@@ -1,4 +1,5 @@
 import numpy as np
+from math import log
 
 print(np.arange(8))
 
@@ -12,3 +13,6 @@ print(a)  # prints "array([[ 1,  2,  3],
 
 a += 10
 print(a)
+
+print(log(100, 10))
+
