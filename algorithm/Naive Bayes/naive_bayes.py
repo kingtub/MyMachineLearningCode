@@ -40,7 +40,7 @@ def trainingNB(sentencesVectors, classVec):
     # 有歧视语句分类的总概率
     pAbusive = sum(classVec) / len(classVec)
     # 利用贝叶斯分类器对文档进行分类时，要计算多个（单词的）概率的乘积，如果其中一个为0，那么乘积为0，为降低这种影响，
-    # 可以将所有词的出现数初始化为1，且将分母初始化为2
+    # 可以将所有词的出现数初始化为1，且将分母初始化为2——这其实是Laplace校准
     # p0Sum = zeros(sentencesVectors.shape[1]) 原来的方式
     # p1Sum = zeros(sentencesVectors.shape[1])
     # p0Demon = 0
