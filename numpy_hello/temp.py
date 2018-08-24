@@ -16,3 +16,8 @@ print(a)
 
 print(log(100, 10))
 
+a = np.mat([[1, 2],[3, 4]])
+print(a)
+print(2 * a.transpose())
+print(type(a[1, 1] - 0))
+
