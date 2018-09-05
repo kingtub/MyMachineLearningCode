@@ -98,6 +98,32 @@ def chooseBestFeatureAxis(dataSet):
     return smallestFeature
 
 
+# 分类函数
+def classify(featureVec, labels, tree):
+    la = list(tree.keys())[0]
+    i = labels.index(la)
+    subTree = tree[la]
+    if not isinstance(subTree, dict):
+        return subTree
+    while isinstance(subTree[featureVec[i]], dict):
+        la = list(subTree[featureVec[i]].keys())[0]
+        subTree = subTree[featureVec[i]][la]
+        i = labels.index(la)
+    return subTree[featureVec[i]]
+
+
+def saveTree(fileName, tree):
+    import pickle
+    with open(fileName, 'w') as fw:
+        pickle.dump(fw, tree)
+
+
+def loadTree(fileName):
+    import pickle
+    with open(fileName) as fr:
+        return pickle.load(fr)
+
+
 def createDataSet():
     dataSet = [[1, 1, 'yes'],
                [1, 1, 'yes'],
@@ -109,10 +135,32 @@ def createDataSet():
     return dataSet, labels
 
 
-dataSet, labels = createDataSet()
-# print(dataSet, labels)
-tree = createTree(dataSet, labels)
-print(tree)
+def test1():
+    dataSet, labels = createDataSet()
+    # print(dataSet, labels)
+    tree = createTree(dataSet, labels)
+    print(tree)
+
+    print(classify([1, 1], labels, tree))
+    print(classify([1, 0], labels, tree))
+    print(classify([0, 1], labels, tree))
+
+
+def test2():
+    dataMat = []
+    with open('lenses.txt') as f:
+        for line in f.readlines():
+            ss = line.strip().split('\t')
+            dataMat.append(ss)
+    labels = ['k1', 'k2', 'k3', 'k4']
+    tree = createTree(dataMat, labels)
+    print(classify(['young', 'myope', 'no', 'normal'], labels, tree))
+    print(classify(['young', 'myope', 'no', 'reduced'], labels, tree))
+    print(classify(['pre', 'myope', 'yes', 'normal'], labels, tree))
+
+
+#test1()
+test2()
 
 
 
