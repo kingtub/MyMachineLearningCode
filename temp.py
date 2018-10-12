@@ -31,7 +31,7 @@ def test2():
     y = tf.nn.softmax(logits, axis=0)
     # true label
     y_label = tf.constant([[1, 0, 0], [0, 1, 0], [0.0, 0.0, 1.0]])
-    # cross_entropy = -tf.reduce_sum(y_label * tf.log(y))
+    cross_entropy = -tf.reduce_sum(y_label * tf.log(y))
     cost = - tf.reduce_sum(tf.multiply(y_label, y))
 
     sess = tf.Session()
@@ -42,7 +42,8 @@ def test2():
     mul2 = sess.run(y_label * y)
     print('mul2=', mul2)
     print('cost=', sess.run(cost))
-    print('log=', sess.run(tf.log(logits)))
+    print('log=', sess.run(tf.log(y)))
+    print('cross_entropy=', sess.run(cross_entropy))
 
 
 test2()
