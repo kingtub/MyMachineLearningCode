@@ -70,7 +70,7 @@ def adaBoostTrainDS(dataArr, labels, numIt):
         z = zeros((m, 1))
         z[sign(classifyCount) != labelMat] = 1
         errorRate = z.sum()/m
-        if errorRate <= 1e-10:
+        if errorRate == 0.0:
             # 如果所有元素已正确分类，则提前退出
             break
 
@@ -111,7 +111,7 @@ def testing1():
 def testing2():
     trainingDataMat, trainingClassLabels = loadDataSet('horseColicTraining2.txt')
     testDataMat, testClassLabels = loadDataSet('horseColicTest2.txt')
-    stumps = adaBoostTrainDS(trainingDataMat, trainingClassLabels, 60)
+    stumps = adaBoostTrainDS(trainingDataMat, trainingClassLabels, 50)
     classify = adaClassify(stumps, testDataMat)
     m = len(testClassLabels)
     testLabelMat = mat(testClassLabels, dtype=float).T
