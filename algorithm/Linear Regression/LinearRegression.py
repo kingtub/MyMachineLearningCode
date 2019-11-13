@@ -33,12 +33,12 @@ def trainTF(xs, ys):
 
     xMat = mat(xs, dtype='float32')
     yMat = mat(ys, dtype='float32').transpose()
-    alpha = 0.0001
-    times = 100
+    alpha = 0.001
+    times = 120
 
     W = tf.Variable(tf.random_uniform([2, 1], -1.0, 1.0))
     error = tf.matmul(xMat, W) - yMat
-    cost = tf.reduce_sum(square(error))
+    cost = tf.reduce_sum(tf.square(error))
     # 3、定义梯度下降训练法，0.001是学习步长
     train = tf.train.GradientDescentOptimizer(alpha).minimize(cost)
 
@@ -47,13 +47,24 @@ def trainTF(xs, ys):
     session = tf.Session()
     session.run(init)
 
-    # 训练500次
+    x_steps = []
+    y_cost = []
     for i in range(times):
         session.run(train)
+        if (i+1) % 10 == 0:
+            x_steps.append(i+1)
+            y_cost.append(session.run(cost))
+
+    plt.figure(0)
+    plt.plot(x_steps, y_cost)
+    print('xc=',x_steps)
+    print('yc=', y_cost)
+
+    plt.figure(1)
 
     # 把最终变量结果打印出来
     weights_result = session.run(W)
-    print(weights_result)
+
     return weights_result
 
 
@@ -75,7 +86,8 @@ def drawResult(xs, ys, weights):
 
 def testing():
     xs, ys = loadData()
-    weights = train(xs, ys)
+    # weights = train(xs, ys)
+    weights = trainTF(xs, ys)
     print(weights)
     drawResult(xs, ys, weights)
 

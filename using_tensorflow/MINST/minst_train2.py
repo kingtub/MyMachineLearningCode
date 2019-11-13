@@ -23,15 +23,11 @@ def my_train():
     z1 = tf.matmul(w1, x) + b1
     a1 = tf.sigmoid(z1)
     z2 = tf.matmul(w2, a1) + b2
-    # y = tf.nn.softmax(z1, axis=0)
-    # cost = - tf.reduce_sum(y_label * tf.log(y))
-
-    # 以下这行可以代表上面2行
-    cost = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits_v2(labels=y_label, logits=z2, dim=0)) + 5/(2 * 60000) *\
-        (tf.reduce_sum(tf.square(w1)) + tf.reduce_sum(tf.square(w2)))
+    y = tf.nn.log_softmax(z2, axis=0)
+    cost = - tf.reduce_sum(y_label * y)
 
     # 3、定义梯度下降训练法，0.05是学习步长
-    train_step = tf.train.GradientDescentOptimizer(1).minimize(cost)
+    train_step = tf.train.GradientDescentOptimizer(0.05).minimize(cost)
 
     # 这段是固定的
     init = tf.global_variables_initializer()

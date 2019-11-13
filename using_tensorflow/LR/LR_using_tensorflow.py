@@ -46,7 +46,9 @@ def myTrain(features, labels):
         session.run(train)
 
     # 把最终变量结果打印出来
-    print(session.run(w))
+    weights = session.run(w)
+    print(weights)
+    return weights
 
 
 # 把结果 画出来
@@ -77,7 +79,8 @@ def drawResult(features, labels, weights, title):
 
 def testing():
     features, labels = loadData()
-    myTrain(features, labels)
+    weights = myTrain(features, labels)
+    drawResult(features, labels, weights, 'p0')
 
 
     # weights = np.mat([[ 3.8953044], 这是得到的权值
