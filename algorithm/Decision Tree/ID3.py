@@ -112,6 +112,18 @@ def classify(featureVec, labels, tree):
     return subTree[featureVec[i]]
 
 
+def classify2(vec, labels, tree):
+    firstKey = list(tree.keys())[0]
+    index = labels.index(firstKey)
+    value = vec[index]
+    result = tree[firstKey][value]
+    if type(result).__name__ == 'dict':
+        # It's a subtree
+        return classify2(vec, labels, result)
+    else:
+        # It's the label
+        return result
+
 def saveTree(fileName, tree):
     import pickle
     with open(fileName, 'w') as fw:
@@ -145,6 +157,10 @@ def test1():
     print(classify([1, 0], labels, tree))
     print(classify([0, 1], labels, tree))
 
+    print(classify2([1, 1], labels, tree))
+    print(classify2([1, 0], labels, tree))
+    print(classify2([0, 1], labels, tree))
+
 
 def test2():
     dataMat = []
@@ -158,8 +174,12 @@ def test2():
     print(classify(['young', 'myope', 'no', 'reduced'], labels, tree))
     print(classify(['pre', 'myope', 'yes', 'normal'], labels, tree))
 
+    print(classify2(['young', 'myope', 'no', 'normal'], labels, tree))
+    print(classify2(['young', 'myope', 'no', 'reduced'], labels, tree))
+    print(classify2(['pre', 'myope', 'yes', 'normal'], labels, tree))
 
-#test1()
+
+# test1()
 test2()
 
 
